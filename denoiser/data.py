@@ -10,7 +10,7 @@ import logging
 import os
 import re
 
-from .audio import Audioset
+from .audio import Audioset, NoisyAudioset, CHiME3NoisyAudioset
 
 logger = logging.getLogger(__name__)
 
@@ -97,3 +97,65 @@ class NoisyCleanSet:
 
     def __len__(self):
         return len(self.noisy_set)
+
+
+class MNoisyNoisySet:
+    def __init__(self, json_dir, length=None, stride=None,
+                 pad=True, sample_rate=None):
+        """__init__.
+
+        :param json_dir: directory containing both noise.json and noisy.json
+        :param length: maximum sequence length
+        :param stride: the stride used for splitting audio sequences
+        :param pad: pad the end of the sequence with zeros
+        :param sample_rate: the signals sampling rate
+        """
+        noise_json = os.path.join(json_dir, 'noise.json')
+        noisy_json = os.path.join(json_dir, 'noisy.json')
+        with open(noise_json, 'r') as f:
+            noise = json.load(f)
+        with open(noisy_json, 'r') as f:
+            noisy = json.load(f)
+
+        kw = {'length': length, 'stride': stride, 'pad': pad, 'sample_rate': sample_rate}
+        self.noisy_set = Audioset(noisy, **kw)
+        self.m_noisy_set = NoisyAudioset(noisy, noise, **kw)
+
+        assert len(self.noisy_set) == len(self.m_noisy_set)
+
+    def __getitem__(self, index):
+        return self.m_noisy_set[index], self.noisy_set[index]
+
+    def __len__(self):
+        return len(self.m_noisy_set)
+
+
+class CHiME3MNoisyNoisySet:
+    def __init__(self, json_dir, length=None, stride=None,
+                 pad=True, sample_rate=None):
+        """__init__.
+
+        :param json_dir: directory containing both noise.json and noisy.json
+        :param length: maximum sequence length
+        :param stride: the stride used for splitting audio sequences
+        :param pad: pad the end of the sequence with zeros
+        :param sample_rate: the signals sampling rate
+        """
+        noise_json = os.path.join(json_dir, 'noise.json')
+        noisy_json = os.path.join(json_dir, 'noisy.json')
+        with open(noise_json, 'r') as f:
+            noise = json.load(f)
+        with open(noisy_json, 'r') as f:
+            noisy = json.load(f)
+
+        kw = {'length': length, 'stride': stride, 'pad': pad, 'sample_rate': sample_rate}
+        self.noisy_set = Audioset(noisy, **kw)
+        self.m_noisy_set = CHiME3NoisyAudioset(noisy, noise, **kw)
+
+        assert len(self.noisy_set) == len(self.m_noisy_set)
+
+    def __getitem__(self, index):
+        return self.m_noisy_set[index], self.noisy_set[index]
+
+    def __len__(self):
+        return len(self.m_noisy_set)
