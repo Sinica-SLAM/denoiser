@@ -132,7 +132,7 @@ class MNoisyNoisySet:
 
 class CHiME3MNoisyNoisySet:
     def __init__(self, json_dir, length=None, stride=None,
-                 pad=True, sample_rate=None):
+                 pad=True, sample_rate=None, chime3_background_path=None):
         """__init__.
 
         :param json_dir: directory containing both noise.json and noisy.json
@@ -148,7 +148,8 @@ class CHiME3MNoisyNoisySet:
         with open(noisy_json, 'r') as f:
             noisy = json.load(f)
 
-        kw = {'length': length, 'stride': stride, 'pad': pad, 'sample_rate': sample_rate}
+        kw = {'length': length, 'stride': stride, 'pad': pad,
+              'sample_rate': sample_rate, 'chime3_background_path': chime3_background_path}
         self.noisy_set = Audioset(noisy, **kw)
         self.m_noisy_set = CHiME3NoisyAudioset(noisy, noise, **kw)
 

@@ -185,7 +185,7 @@ class NoisyAudioset:
 class CHiME3NoisyAudioset:
     def __init__(self, noisy_files=None, noise_files=None, length=None, stride=None,
                  pad=True, with_path=False, sample_rate=None,
-                 channels=None, convert=False):
+                 channels=None, convert=False, chime3_background_path=None):
         """
         clean_files and noise_files should be a list [(file, length)]
         """
@@ -198,7 +198,7 @@ class CHiME3NoisyAudioset:
         self.channels = channels
         self.convert = convert
         self.chime3_augmenter = AddBackgroundNoise(
-            background_paths="/mnt/md1/user_wayne/Corpora/CHiME3/data/audio/16kHz/backgrounds/", p=1, max_snr_in_db=5, min_snr_in_db=-5)
+            background_paths=chime3_background_path, p=1, max_snr_in_db=5, min_snr_in_db=-5)
         self.augmenter = AddBackgroundNoise(
             background_paths=[noise_file_path for noise_file_path, _ in noise_files], p=1, max_snr_in_db=5, min_snr_in_db=-5)
 
