@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RUN_DIR="utputs/static_nytt1"
+RUN_DIR="utputs/static_nyenhtt4"
 DSET=PLACEHOLDER
 
 

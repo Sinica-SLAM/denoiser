@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RUN_DIR="outputs/ema_nytt1"
+RUN_DIR="outputs/ema_nyenhtt4"
 TEACHER_CHECKPOINT=PLACEHOLDER # baseline or initial teacher model ckpt
 SAVE_CHECKPOINT="${RUN_DIR}/checkpoints/checkpoint1.th"
 S_CHECKPOINT="${RUN_DIR}/checkpoint.th"
